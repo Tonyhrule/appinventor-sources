@@ -1069,6 +1069,19 @@ Blockly.Drawer.defaultBlockXMLStrings = {
         '</block>' +
         '</xml>'
       );
+    }},
+    {matchingMutatorAttributes:{component_type:"TeachableLLM", method_name:"ConverseWithContext"},
+    mutatorXMLStringFunction: function(mutatorAttributes) {
+      return (
+        '<xml>' +
+        '<block type="component_method">' +
+        // mutator generator
+        Blockly.Util.xml.mutatorAttributesXmlString(mutatorAttributes) +
+        '<value name="ARG1"><block type="math_number"><title name="NUM">5</title></block></value>' +
+        '<value name="ARG2"><block type="text"><field name="TEXT">Use the following documents to answer the user\'s prompt. Make sure to cite your sources by number. (Eg. According to DOCUMENT_TITLE, ...)</field></block></value>' +
+        '</block>' +
+        '</xml>'
+      );
     }}
   ]
 };

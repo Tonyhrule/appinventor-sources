@@ -11,6 +11,7 @@ Table of Contents:
 * [ChatBot](#ChatBot)
 * [FirebaseDB](#FirebaseDB)
 * [ImageBot](#ImageBot)
+* [TeachableLLM](#TeachableLLM)
 
 ## ChatBot  {#ChatBot}
 
@@ -217,3 +218,37 @@ The ImageBot is a non-visible component that uses DALL-E 2 to create and edit im
 : Edit the imageSource using the given description. The editable area of the image should be
  indicated by the maskSource. The sources can be a Canvas, an Image, or a string
  representing the path to a file.
+
+## TeachableLLM  {#TeachableLLM}
+
+The TeachableLLM component is a non-visible component for chatting with a local AI chatbot. This
+ version uses WebLLM to run the ChatBot locally. It also has support for RAG using MeMemo and a
+ supplementary website.
+
+
+
+### Properties  {#TeachableLLM-Properties}
+
+{:.properties}
+
+{:id="TeachableLLM.ChatBotComponent" .component .wo} *ChatBotComponent*
+: Sets the chat bot component to use.
+
+{:id="TeachableLLM.DatabaseFile" .text .wo .do} *DatabaseFile*
+: Specifies the path of the database file.
+
+### Events  {#TeachableLLM-Events}
+
+{:.events}
+
+{:id="TeachableLLM.FetchedDocuments"} FetchedDocuments(*documents*{:.text})
+: Fires when the Teachable LLM fetches documents to use.
+
+### Methods  {#TeachableLLM-Methods}
+
+{:.methods}
+
+{:id="TeachableLLM.ConverseWithContext" class="method"} <i/> ConverseWithContext(*message*{:.text},*topK*{:.number},*contextPrompt*{:.text})
+: Sends a message to the TeachableLLM and fetches relevant context for the message. This includes
+ all previous messages in the chat. A topK of 5 means the top 5 results will be returned. The
+ context prompt is used to determine how retrieved context will be used.

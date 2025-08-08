@@ -57,7 +57,10 @@ public class AttachCompAssets implements AndroidTask {
             return TaskResult.generateError("Unknown asset type");
           }
 
-          Files.copy(new File(sourcePath), new File(targetDir, assetName));
+          File targetFile = new File(targetDir, assetName);
+          targetFile.getParentFile().mkdirs();
+
+          Files.copy(new File(sourcePath), targetFile);
         }
       }
 

@@ -913,6 +913,9 @@ public class YaVersion {
   // - The ConverseWithImage method was added
   public static final int CHATBOT_COMPONENT_VERSION = 3;
 
+  // For TEACHABLELLM: Initial Version
+  public static final int TEACHABLELLM_COMPONENT_VERSION = 1;
+
   // For CHECKBOX_COMPONENT_VERSION 2:
   // - The Value property was renamed to Checked.
   public static final int CHECKBOX_COMPONENT_VERSION = 2;

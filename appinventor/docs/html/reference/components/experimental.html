@@ -316,6 +316,37 @@
  representing the path to a file.</dd>
 </dl>
 
+<h2 id="TeachableLLM">TeachableLLM</h2>
+
+<p>The TeachableLLM component is a non-visible component for chatting with a local AI chatbot. This
+version uses WebLLM to run the ChatBot locally. It also has support for RAG using MeMemo and a
+supplementary website.</p>
+
+<h3 id="TeachableLLM-Properties">Properties</h3>
+
+<dl class="properties">
+  <dt id="TeachableLLM.ChatBotComponent" class="component wo"><em>ChatBotComponent</em></dt>
+  <dd>Sets the chat bot component to use.</dd>
+  <dt id="TeachableLLM.DatabaseFile" class="text wo do"><em>DatabaseFile</em></dt>
+  <dd>Specifies the path of the database file.</dd>
+</dl>
+
+<h3 id="TeachableLLM-Events">Events</h3>
+
+<dl class="events">
+  <dt id="TeachableLLM.FetchedDocuments">FetchedDocuments(<em class="text">documents</em>)</dt>
+  <dd>Fires when the Teachable LLM fetches documents to use.</dd>
+</dl>
+
+<h3 id="TeachableLLM-Methods">Methods</h3>
+
+<dl class="methods">
+  <dt id="TeachableLLM.ConverseWithContext" class="method"><i></i> ConverseWithContext(<em class="text">message</em>,<em class="number">topK</em>,<em class="text">contextPrompt</em>)</dt>
+  <dd>Sends a message to the TeachableLLM and fetches relevant context for the message. This includes
+all previous messages in the chat. A topK of 5 means the top 5 results will be returned. The
+context prompt is used to determine how retrieved context will be used.</dd>
+</dl>
+
 </article>
 <script>
   // Handle redirection to documentation based on locale query parameter (if specified)

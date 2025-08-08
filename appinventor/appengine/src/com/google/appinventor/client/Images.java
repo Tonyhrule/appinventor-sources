@@ -662,6 +662,12 @@ public interface Images extends Resources {
   ImageResource chatbot();
 
   /**
+   * Designer pallette item: TeachableLLM Component
+   */
+  @Source("com/google/appinventor/images/teachablellm.png")
+  ImageResource teachablellm();
+
+  /**
     * Designer palette item: YandexTranslate
     */
   @Source("com/google/appinventor/images/yandex.png")
