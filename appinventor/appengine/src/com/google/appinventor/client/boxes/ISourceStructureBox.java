@@ -6,7 +6,8 @@
 
 package com.google.appinventor.client.boxes;
 
-import com.google.appinventor.client.editor.designer.DesignerRootComponent;
+import com.google.appinventor.client.editor.simple.components.MockForm;
+import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
 import com.google.appinventor.client.explorer.SourceStructureExplorer;
 
 public interface ISourceStructureBox {
@@ -19,5 +20,5 @@ public interface ISourceStructureBox {
   /**
    * Method render the "child" boxes.
    */
-  void show(DesignerRootComponent root);
+  void show(MockForm form);
 }

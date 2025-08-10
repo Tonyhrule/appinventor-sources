@@ -5,7 +5,6 @@
 
 package com.google.appinventor.client.editor.simple.components;
 
-import com.google.appinventor.client.editor.designer.DesignerChangeListener;
 import com.google.appinventor.client.editor.simple.SimpleEditor;
 import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
 import com.google.gwt.resources.client.ImageResource;
@@ -21,7 +20,7 @@ import static com.google.appinventor.client.Ode.MESSAGES;
  *
  * @author srlane@mit.edu (Susan Rati Lane)
  */
-abstract class MockToggleBase<T extends Widget> extends MockWrapper implements DesignerChangeListener {
+abstract class MockToggleBase<T extends Widget> extends MockWrapper implements FormChangeListener {
 
   // Set toggle widget in child classes
   protected T toggleWidget;
@@ -34,11 +33,13 @@ abstract class MockToggleBase<T extends Widget> extends MockWrapper implements D
   @Override
   protected void onAttach() {
     super.onAttach();
+    ((YaFormEditor) editor).getForm().addFormChangeListener(this);
   }
 
   @Override
   protected void onDetach() {
     super.onDetach();
+    ((YaFormEditor) editor).getForm().removeFormChangeListener(this);
   }
 
   protected final Widget createClonedWidget() {

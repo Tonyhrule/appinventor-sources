@@ -17,7 +17,6 @@ import com.google.appinventor.components.annotations.SimpleObject;
 public abstract class AndroidNonvisibleComponent implements Component {
 
   protected final Form form;
-  protected String componentName;
 
   /**
    * Creates a new AndroidNonvisibleComponent.
@@ -33,10 +32,5 @@ public abstract class AndroidNonvisibleComponent implements Component {
   @Override
   public HandlesEventDispatching getDispatchDelegate() {
     return form;
-  }
-
-  @Override
-  public void setComponentName(final String componentName) {
-    this.componentName = componentName;
   }
 }

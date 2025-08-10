@@ -7,8 +7,6 @@
 package com.google.appinventor.client.editor.simple.components;
 
 import static com.google.appinventor.client.Ode.MESSAGES;
-
-import com.google.appinventor.client.editor.designer.DesignerChangeListener;
 import com.google.appinventor.client.editor.simple.SimpleEditor;
 import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
 import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
@@ -20,7 +18,7 @@ import com.google.gwt.user.client.ui.InlineHTML;
  * Mock Label component.
  *
  */
-public final class MockLabel extends MockVisibleComponent implements DesignerChangeListener {
+public final class MockLabel extends MockVisibleComponent implements FormChangeListener{
 
   /**
    * Component type name.
@@ -52,13 +50,13 @@ public final class MockLabel extends MockVisibleComponent implements DesignerCha
   @Override
   protected void onAttach() {
     super.onAttach();
-    ((YaFormEditor) editor).getForm().addDesignerChangeListener(this);
+    ((YaFormEditor) editor).getForm().addFormChangeListener(this);
   }
 
   @Override
   protected void onDetach() {
     super.onDetach();
-    ((YaFormEditor) editor).getForm().removeDesignerChangeListener(this);
+    ((YaFormEditor) editor).getForm().removeFormChangeListener(this);
   }
 
 

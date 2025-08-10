@@ -7,8 +7,6 @@
 package com.google.appinventor.client.editor.simple.components;
 
 import static com.google.appinventor.client.Ode.MESSAGES;
-
-import com.google.appinventor.client.editor.designer.DesignerChangeListener;
 import com.google.appinventor.client.editor.simple.SimpleEditor;
 import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
 import com.google.appinventor.components.common.ComponentConstants;
@@ -24,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author sharon@google.com (Sharon Perl)
  * @author lizlooney@google.com (Liz Looney)
  */
-abstract class MockTextBoxBase extends MockWrapper implements DesignerChangeListener {
+abstract class MockTextBoxBase extends MockWrapper implements FormChangeListener {
   protected static final String PROPERTY_NAME_HINTCOLOR = "HintColor";
 
   // GWT widget used to mock a Simple TextBox
@@ -46,12 +44,12 @@ abstract class MockTextBoxBase extends MockWrapper implements DesignerChangeList
   @Override
   protected void onAttach() {
         super.onAttach();
-        ((YaFormEditor) editor).getForm().addDesignerChangeListener(this);
+        ((YaFormEditor) editor).getForm().addFormChangeListener(this);
   }
   @Override
   protected void onDetach() {
         super.onDetach();
-        ((YaFormEditor) editor).getForm().removeDesignerChangeListener(this);
+        ((YaFormEditor) editor).getForm().removeFormChangeListener(this);
   }
   /**
    * Class that extends TextBox so we can use a protected constructor.

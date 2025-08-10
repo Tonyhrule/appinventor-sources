@@ -144,12 +144,8 @@ public final class MockImageSprite extends MockImageBase implements MockSprite {
       setVProperty(newValue);
       setOriginProperty(u, v);
     } else if (propertyName.equals(PROPERTY_NAME_MARKORIGIN)) {
-      if (hasProperty(PROPERTY_NAME_U)) {  // Not true when project initializing
-        changeProperty(PROPERTY_NAME_U, getUFromOrigin(newValue));
-      }
-      if (hasProperty(PROPERTY_NAME_V)) {  // Not true when project initializing
-        changeProperty(PROPERTY_NAME_V, getVFromOrigin(newValue));
-      }
+      changeProperty(PROPERTY_NAME_U, getUFromOrigin(newValue));
+      changeProperty(PROPERTY_NAME_V, getVFromOrigin(newValue));
     }
   }
 

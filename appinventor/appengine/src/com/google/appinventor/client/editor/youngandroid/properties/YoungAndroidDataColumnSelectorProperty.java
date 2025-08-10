@@ -7,7 +7,6 @@ package com.google.appinventor.client.editor.youngandroid.properties;
 
 import static com.google.appinventor.client.Ode.MESSAGES;
 
-import com.google.appinventor.client.editor.designer.DesignerEditor;
 import com.google.appinventor.client.editor.simple.components.DataFileChangeListener;
 import com.google.appinventor.client.editor.simple.components.MockDataFile;
 
@@ -46,7 +45,7 @@ public class YoungAndroidDataColumnSelectorProperty
    *
    * @param editor the editor that this property editor belongs to
    */
-  public YoungAndroidDataColumnSelectorProperty(final DesignerEditor<?, ?, ?, ?, ?> editor) {
+  public YoungAndroidDataColumnSelectorProperty(final YaFormEditor editor) {
 
     final VerticalPanel selectorPanel = new VerticalPanel();
     columnsList = new ListBox();

@@ -804,8 +804,7 @@ Blockly.WorkspaceSvg.prototype.setGridSettings = function(enabled, snap) {
       this.svgBackground_.setAttribute('style', 'fill: url(#' + this.options.gridPattern.id + ');');
     } else {
       // remove grid
-      const color = Blockly.common.getMainWorkspace().getTheme().componentStyles.workspaceBackgroundColour ?? "white";
-      this.svgBackground_.setAttribute('style', `fill: ${color};`);
+      this.svgBackground_.setAttribute('style', 'fill: white;');
     }
   }
 };

@@ -45,8 +45,7 @@ import java.util.List;
 @SimpleObject
 @DesignerComponent(version = YaVersion.CHART_COMPONENT_VERSION,
     category = ComponentCategory.CHARTS,
-    description = "A component that allows visualizing data",
-    iconName = "images/chart.png")
+    description = "A component that allows visualizing data")
 @UsesLibraries(libraries = "mpandroidchart.jar")
 @SuppressWarnings("checkstyle:JavadocParagraph")
 public class Chart extends AndroidViewComponent

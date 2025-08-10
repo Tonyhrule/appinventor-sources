@@ -36,7 +36,6 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
-import com.google.appinventor.components.runtime.util.RetValManager;
 import com.google.appinventor.components.runtime.util.SdkLevel;
 
 /**
@@ -546,9 +545,6 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
      "See the Google Android documentation for how to access the log.")
   public void LogError(String message) {
     Log.e(LOG_TAG, message);
-    if (form.isRepl()) {
-      RetValManager.appendLogValue(message, "Notifier", "OK", "Error");
-    }
   }
 
   /**
@@ -561,9 +557,6 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
      "See the Google Android documentation for how to access the log.")
   public void LogWarning(String message) {
     Log.w(LOG_TAG, message);
-    if (form.isRepl()) {
-      RetValManager.appendLogValue(message, "Notifier", "OK", "Warning");
-    }
   }
 
   /**
@@ -574,8 +567,5 @@ public final class Notifier extends AndroidNonvisibleComponent implements Compon
   @SimpleFunction(description = "Writes an information message to the Android log.")
   public void LogInfo(String message) {
     Log.i(LOG_TAG, message);
-    if (form.isRepl()) {
-      RetValManager.appendLogValue(message, "Notifier", "OK", "Info");
-    }
   }
 }

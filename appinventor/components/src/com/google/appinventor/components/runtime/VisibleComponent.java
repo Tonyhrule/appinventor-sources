@@ -18,8 +18,6 @@ import com.google.appinventor.components.annotations.SimpleProperty;
  */
 @SimpleObject
 public abstract class VisibleComponent implements Component {
-  protected String componentName;
-
   protected VisibleComponent() {
   }
 
@@ -82,9 +80,4 @@ public abstract class VisibleComponent implements Component {
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE)
   public abstract void HeightPercent(int hPercent);
-
-  @Override
-  public void setComponentName(final String componentName) {
-    this.componentName = componentName;
-  }
 }

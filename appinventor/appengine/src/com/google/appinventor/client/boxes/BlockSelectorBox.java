@@ -1,17 +1,12 @@
-// -*- mode: java; c-basic-offset: 2; -*-
-// Copyright 2012-2025 Massachusetts Institute of Technology. All Rights Reserved.
-// Released under the Apache License, Version 2.0
-// http://www.apache.org/licenses/LICENSE-2.0
+// Copyright 2012 Massachusetts Institute of Technology. All Rights Reserved.
 
 package com.google.appinventor.client.boxes;
 
 import com.google.appinventor.client.editor.simple.components.i18n.ComponentTranslationTable;
 import com.google.appinventor.client.Images;
 import com.google.appinventor.client.Ode;
-import com.google.appinventor.client.editor.blocks.BlockDrawerSelectionListener;
-import com.google.appinventor.client.editor.blocks.BlocksCategory;
-import com.google.appinventor.client.editor.blocks.BlocksLanguage;
-import com.google.appinventor.client.editor.designer.DesignerRootComponent;
+import com.google.appinventor.client.editor.simple.components.MockForm;
+import com.google.appinventor.client.editor.youngandroid.BlockDrawerSelectionListener;
 import com.google.appinventor.client.explorer.SourceStructureExplorer;
 import com.google.appinventor.client.explorer.SourceStructureExplorerItem;
 import com.google.appinventor.client.widgets.boxes.Box;
@@ -29,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -95,8 +89,6 @@ public final class BlockSelectorBox extends Box {
   // Source structure explorer (for components and built-in blocks)
   private final SourceStructureExplorer sourceStructureExplorer;
 
-  private final Map<BlocksLanguage, TreeItem> languageTreeItems;
-
   private List<BlockDrawerSelectionListener> drawerListeners;
 
   /**
@@ -111,23 +103,16 @@ public final class BlockSelectorBox extends Box {
    * @return array of built-in block drawers for the blocks editor that contain blocks included in
    * the subset parameter. This keeps empty drawers from displaying in the Blocks Editor
    */
-  private Set<BlocksCategory> getSubsetDrawerNames(BlocksLanguage language, DesignerRootComponent form) {
-    if (form.hasProperty(SettingsConstants.YOUNG_ANDROID_SETTINGS_BLOCK_SUBSET)) {
-      String subsetJsonString = form.getPropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_BLOCK_SUBSET);
-      if (subsetJsonString.length() > 0) {
-        JSONObject subsetJSON = JSONParser.parseStrict(subsetJsonString).isObject();
-        Set<String> subsetDrawers = new HashSet<String>(subsetJSON.get("shownBlockTypes").isObject().keySet());
-        subsetDrawers.retainAll(BUILTIN_DRAWER_NAMES);
-        Set<BlocksCategory> subsetCategories = new LinkedHashSet<BlocksCategory>();
-        for (BlocksCategory category : language.getCategories()) {
-          if (subsetDrawers.contains(category.getCategory())) {
-            subsetCategories.add(category);
-          }
-        }
-        return subsetCategories;
-      }
+  private Set<String> getSubsetDrawerNames(MockForm form) {
+    String subsetJsonString = form.getPropertyValue(SettingsConstants.YOUNG_ANDROID_SETTINGS_BLOCK_SUBSET);
+    if (subsetJsonString.length() > 0) {
+      JSONObject subsetJSON = JSONParser.parseStrict(subsetJsonString).isObject();
+      Set<String> subsetDrawers = new HashSet<String>(subsetJSON.get("shownBlockTypes").isObject().keySet());
+      subsetDrawers.retainAll(BUILTIN_DRAWER_NAMES);
+      return subsetDrawers;
+    } else {
+      return BUILTIN_DRAWER_NAMES;
     }
-    return language.getCategories();
   }
 
   public static BlockSelectorBox getBlockSelectorBox() {
@@ -143,11 +128,22 @@ public final class BlockSelectorBox extends Box {
         false); // removable
 
     sourceStructureExplorer = new SourceStructureExplorer();
-    languageTreeItems = Maps.newHashMap();
 
     setContent(sourceStructureExplorer);
     setVisible(false);
     drawerListeners = new ArrayList<BlockDrawerSelectionListener>();
+  }
+
+  private static void initBundledImages() {
+    bundledImages.put("Control", images.control());
+    bundledImages.put("Logic", images.logic());
+    bundledImages.put("Math", images.math());
+    bundledImages.put("Text", images.text());
+    bundledImages.put("Lists", images.lists());
+    bundledImages.put("Colors", images.colors());
+    bundledImages.put("Variables", images.variables());
+    bundledImages.put("Procedures", images.procedures());
+    bundledImages.put("Dictionaries", images.dictionaries());
   }
 
   /**
@@ -164,27 +160,57 @@ public final class BlockSelectorBox extends Box {
    *
    * @return tree item
    */
-  public TreeItem getBuiltInBlocksTree(BlocksLanguage language, DesignerRootComponent form) {
-    TreeItem rootItem = languageTreeItems.get(language);
-    if (rootItem != null) {
-      return rootItem;
-    }
-    rootItem = new TreeItem(new HTML("<span>" + MESSAGES.builtinBlocksLabel() + "</span>"));
-    for (final BlocksCategory category : getSubsetDrawerNames(language, form)) {
-      TreeItem itemNode = new TreeItem(new HTML("<span>" + new Image(category.getImage()) +
-          category.getName() + "</span>"));
+  public TreeItem getBuiltInBlocksTree(MockForm form) {
+    initBundledImages();
+    TreeItem builtinNode = new TreeItem(new HTML("<span>" + MESSAGES.builtinBlocksLabel()
+        + "</span>"));
+    for (final String drawerName : getSubsetDrawerNames(form)) {
+      Image drawerImage = new Image(bundledImages.get(drawerName));
+      TreeItem itemNode = new TreeItem(new HTML("<span>" + drawerImage
+          + getBuiltinDrawerNames(drawerName) + "</span>"));
       SourceStructureExplorerItem sourceItem = new BlockSelectorItem() {
         @Override
-        public void onSelected(NativeEvent event) {
-          fireBuiltinDrawerSelected(category.getCategory());
+        public void onSelected(NativeEvent source) {
+          fireBuiltinDrawerSelected(drawerName);
         }
       };
       itemNode.setUserObject(sourceItem);
-      rootItem.addItem(itemNode);
+      builtinNode.addItem(itemNode);
     }
-    rootItem.setState(true);
-    languageTreeItems.put(language, rootItem);
-    return rootItem;
+    builtinNode.setState(true);
+    return builtinNode;
+  }
+
+  /**
+   * Given the drawerName, return the name in current language setting
+   */
+  private String getBuiltinDrawerNames(String drawerName) {
+    String name;
+
+    LOG.warning("getBuiltinDrawerNames: drawerName = " + drawerName);
+
+    if (drawerName.equals("Control")) {
+       name = MESSAGES.builtinControlLabel();
+    } else if (drawerName.equals("Logic")) {
+       name = MESSAGES.builtinLogicLabel();
+    } else if (drawerName.equals("Math")) {
+       name = MESSAGES.builtinMathLabel();
+    } else if (drawerName.equals("Text")) {
+       name = MESSAGES.builtinTextLabel();
+    } else if (drawerName.equals("Lists")) {
+       name = MESSAGES.builtinListsLabel();
+    } else if (drawerName.equals("Colors")) {
+       name = MESSAGES.builtinColorsLabel();
+    } else if (drawerName.equals("Variables")) {
+       name = MESSAGES.builtinVariablesLabel();
+    } else if (drawerName.equals("Procedures")) {
+       name = MESSAGES.builtinProceduresLabel();
+    } else if (drawerName.equals("Dictionaries")) {
+       name = MESSAGES.builtinDictionariesLabel();
+    } else {
+       name = drawerName;
+    }
+    return name;
   }
 
   /**
@@ -195,7 +221,7 @@ public final class BlockSelectorBox extends Box {
    *          only component types that appear in this Form will be included
    * @return tree item for this form
    */
-  public TreeItem getGenericComponentsTree(DesignerRootComponent form) {
+  public TreeItem getGenericComponentsTree(MockForm form) {
     Map<String, String> typesAndIcons = Maps.newHashMap();
     form.collectTypesAndIcons(typesAndIcons);
     TreeItem advanced = new TreeItem(new HTML("<span>" + MESSAGES.anyComponentLabel() + "</span>"));

@@ -6,7 +6,6 @@
 
 package com.google.appinventor.client.editor.simple.components;
 
-import com.google.appinventor.client.editor.designer.DesignerChangeListener;
 import com.google.appinventor.client.editor.simple.SimpleEditor;
 import com.google.appinventor.components.common.ComponentConstants;
 import com.google.gwt.user.client.DOM;
@@ -20,7 +19,7 @@ import com.google.appinventor.client.editor.youngandroid.YaFormEditor;
  *
  * @author lizlooney@google.com (Liz Looney)
  */
-public final class MockPasswordTextBox extends MockWrapper implements DesignerChangeListener {
+public final class MockPasswordTextBox extends MockWrapper implements FormChangeListener{
 
   /**
    * Component type name.
@@ -47,12 +46,12 @@ public final class MockPasswordTextBox extends MockWrapper implements DesignerCh
   @Override
   protected void onAttach() {
     super.onAttach();
-    ((YaFormEditor) editor).getForm().addDesignerChangeListener(this);
+    ((YaFormEditor) editor).getForm().addFormChangeListener(this);
   }
   @Override
   protected void onDetach() {
     super.onDetach();
-    ((YaFormEditor) editor).getForm().removeDesignerChangeListener(this);
+    ((YaFormEditor) editor).getForm().removeFormChangeListener(this);
   }
   /**
    * Class that extends PasswordTextBox so we can use a protected constructor.

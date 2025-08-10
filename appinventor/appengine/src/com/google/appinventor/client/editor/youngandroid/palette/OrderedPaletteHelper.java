@@ -5,7 +5,6 @@
 
 package com.google.appinventor.client.editor.youngandroid.palette;
 
-import com.google.appinventor.client.editor.simple.palette.PaletteHelper;
 import com.google.appinventor.client.editor.simple.palette.SimplePaletteItem;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
